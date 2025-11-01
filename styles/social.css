@@ -1,0 +1,159 @@
+/* Social features styling for Community page */
+
+/* Post card styling */
+.post-card {
+    background: rgb(22, 2, 2);
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Post header */
+.post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.post-avatar {
+    font-size: 24px;
+    margin-right: 12px;
+}
+
+.post-user {
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.post-time {
+    color: #6b7280;
+    font-size: 0.9em;
+    margin-left: 8px;
+}
+
+/* Post content */
+.post-content {
+    color: #374151;
+    margin: 12px 0;
+    line-height: 1.5;
+}
+
+/* Reactions section */
+.reactions-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 0;
+    border-top: 1px solid #f3f4f6;
+    border-bottom: 1px solid #f3f4f6;
+    margin: 12px 0;
+}
+
+.reaction-badge {
+    display: inline-flex;
+    align-items: center;
+    background: #f3f4f6;
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 0.9em;
+    color: #4b5563;
+    transition: all 0.2s;
+}
+
+.reaction-badge:hover {
+    background: #e5e7eb;
+}
+
+.reaction-badge.active {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.reaction-count {
+    margin-left: 4px;
+    font-weight: 500;
+}
+
+/* Comments section */
+.comments-section {
+    margin-top: 16px;
+}
+
+.comments-header {
+    font-size: 0.95em;
+    color: #4b5563;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+.comment-card {
+    background: #f9fafb;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 8px;
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.comment-avatar {
+    font-size: 16px;
+    margin-right: 8px;
+}
+
+.comment-user {
+    font-weight: 500;
+    color: #374151;
+}
+
+.comment-time {
+    color: #6b7280;
+    font-size: 0.85em;
+    margin-left: 8px;
+}
+
+.comment-text {
+    color: #4b5563;
+    font-size: 0.95em;
+    line-height: 1.4;
+    margin-top: 4px;
+}
+
+/* Comment form */
+.comment-form {
+    background: #f9fafb;
+    border-radius: 8px;
+    padding: 12px;
+    margin-top: 12px;
+}
+
+/* Custom button styles */
+.stButton > button {
+    border-radius: 20px !important;
+    padding: 2px 12px !important;
+    font-size: 0.9em !important;
+    font-weight: 400 !important;
+    transition: all 0.2s !important;
+}
+
+/* Hide default Streamlit margins for cleaner look */
+.block-container {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-out forwards;
+}
