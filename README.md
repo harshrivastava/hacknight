@@ -1,75 +1,218 @@
-# Naborly — Local social app prototype
+# Naborly — Modern Community Social Platform
 
-This is a small, beginner-friendly prototype of a local social app named "Naborly" for a fixed region (Ward 12, ABC City). It's built with Python and Streamlit and uses only hardcoded dummy data so you don't need a backend or database.
+A full-featured local social platform built with Python, Streamlit, and SQLite, designed to connect neighbors and share community information.
 
-## What it includes
+## 🌟 Features
 
-- Fixed map of the locality (dummy locations) using Streamlit's `st.map`.
-- Local news, bulletins, and announcements (hardcoded sample data).
-- Directory of shops, services, and local leaders with dummy contact info.
-- Community feed/chat area with dummy messages (no backend; posts persist only during the Streamlit session).
-- Utility tracker showing fake schedules for water supply and garbage pickup.
-- Notifications and alerts shown inside the app.
+### Community Feed
+- Instagram-style post feed with media support
+- Reactions and comments on posts
+- Real-time updates
+- Media upload support (images and videos)
+- Modern UI with animations and responsive design
 
-## Tech stack
+### User Management
+- User profiles with avatars and bios
+- Login/signup functionality
+- Session management
+- Secure password handling
 
-- Python 3.7+
-- Streamlit
-- pandas (for simple dataframes shown on the map)
+### Government Services
+- Ration rates tracking
+- Community announcements
+- Local utility schedules
 
-## Files
+### Maps & Directory
+- Interactive local area map
+- Business directory
+- Community services listing
+- Points of interest
 
-- `naborly_app.py` — main Streamlit app (single-file prototype). Edit the DATA structures at the top to change dummy content.
-- `requirements.txt` — Python packages required.
+### Data Persistence
+- SQLite database for reliable data storage
+- Structured tables for:
+  - Users and profiles
+  - Posts and media
+  - Comments and reactions
+  - Ration rates
+  - Notifications
 
-## Installation (Windows PowerShell)
+## 🔧 Technology Stack
 
-1. Make sure Python 3.7+ is installed. You can check:
+- **Frontend**: Streamlit
+- **Database**: SQLite3
+- **Styling**: Custom CSS
+- **Media Handling**: PIL, IO
+- **Data Format**: JSON, SQLite
+- **Version Control**: Git
 
-```powershell
-python --version
+## 📁 Project Structure
+
+```
+hacknight/
+├── Home.py                 # Main landing page
+├── naborly_app.py          # Core application setup
+├── setup_db.py            # Database initialization
+├── README.md              # Documentation
+├── requirements.txt       # Python dependencies
+├── pages/
+│   ├── 1_Community.py    # Community feed page
+│   ├── 2_Ration_Rates.py # Government rates page
+│   └── 3_Profile.py      # User profile page
+├── styles/
+│   ├── main.css          # Global styles
+│   ├── modern.css        # Modern UI components
+│   └── social.css        # Social feed styling
+├── utils/
+│   ├── auth.py           # Authentication helpers
+│   ├── db.py            # Database operations
+│   ├── db_helpers.py    # High-level DB functions
+│   └── ui.py            # UI components
+└── naborly.db           # SQLite database
 ```
 
-If Python is not installed, download and install it from https://www.python.org/downloads/ (choose the latest 3.x). Make sure to check "Add Python to PATH" during installation.
+## 🚀 Getting Started
 
-2. (Optional) Upgrade pip:
+1. **Prerequisites**
+   - Python 3.7+
+   - Git (optional)
 
-```powershell
-python -m pip install --upgrade pip
+2. **Installation**
+   ```powershell
+   # Clone the repository (or download ZIP)
+   git clone https://github.com/yourusername/hacknight.git
+   cd hacknight
+
+   # Install requirements
+   pip install -r requirements.txt
+
+   # Initialize the database
+   python setup_db.py
+   ```
+
+3. **Run the Application**
+   ```powershell
+   streamlit run Home.py
+   ```
+
+## 💾 Database Schema
+
+The application uses SQLite with the following structure:
+
+- **users**: User profiles and authentication
+  ```sql
+  CREATE TABLE users (
+      id TEXT PRIMARY KEY,
+      username TEXT UNIQUE NOT NULL,
+      name TEXT NOT NULL,
+      avatar TEXT,
+      bio TEXT,
+      followers INTEGER DEFAULT 0,
+      following INTEGER DEFAULT 0,
+      password_hash TEXT
+  );
+  ```
+
+- **posts**: Community feed posts
+  ```sql
+  CREATE TABLE posts (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id TEXT NOT NULL,
+      message TEXT,
+      media_type TEXT,
+      media_url TEXT,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY(user_id) REFERENCES users(id)
+  );
+  ```
+
+- **comments**: Post comments
+  ```sql
+  CREATE TABLE comments (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      post_id INTEGER NOT NULL,
+      user_id TEXT NOT NULL,
+      text TEXT NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY(post_id) REFERENCES posts(id),
+      FOREIGN KEY(user_id) REFERENCES users(id)
+  );
+  ```
+
+- **reactions**: Post reactions/likes
+  ```sql
+  CREATE TABLE reactions (
+      post_id INTEGER NOT NULL,
+      user_id TEXT NOT NULL,
+      emoji TEXT NOT NULL,
+      FOREIGN KEY(post_id) REFERENCES posts(id),
+      FOREIGN KEY(user_id) REFERENCES users(id),
+      PRIMARY KEY(post_id, user_id, emoji)
+  );
+  ```
+
+## 🎨 Features & Screenshots
+
+### Modern UI Components
+- Responsive post cards with hover effects
+- Instagram-style story circles
+- Clean, modern styling
+- Animated transitions
+- Mobile-friendly design
+
+### Social Features
+- Create posts with text and media
+- React with emojis
+- Comment on posts
+- View user profiles
+- Follow other users
+
+### Government Integration
+- Track ration rates
+- View community announcements
+- Access utility schedules
+- Find local services
+
+## 🔄 Recent Updates
+
+- Added SQLite database integration
+- Implemented user authentication
+- Added profile management
+- Enhanced UI with modern styling
+- Added media upload support
+- Improved post interactions
+
+## 🛠️ Development Notes
+
+### Database Connections
+The app uses a connection pool pattern with SQLite:
+```python
+@st.cache_resource
+def get_db_connection():
+    return sqlite3.connect('naborly.db', check_same_thread=False)
 ```
 
-3. Install required packages:
+### Media Handling
+Media files are currently stored in the database but can be easily modified to use file system or cloud storage by updating the relevant handlers in `db_helpers.py`.
 
-```powershell
-python -m pip install -r requirements.txt
-```
+### Authentication
+User authentication is handled securely with password hashing and session management. Default test accounts are created during database initialization.
 
-## Run the app
+## 📝 Todo & Future Improvements
 
-From the project folder (where `naborly_app.py` is), run:
+- [ ] Add search functionality
+- [ ] Implement user following system
+- [ ] Add direct messaging
+- [ ] Enhance media handling with cloud storage
+- [ ] Add post categories and tags
+- [ ] Implement notification system
+- [ ] Add user settings page
+- [ ] Enhanced security features
 
-```powershell
-streamlit run naborly_app.py
-```
+## 🤝 Contributing
 
-This will open the app in your browser. The app is local and uses hardcoded sample data.
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
 
-## How to modify the dummy data
+## 📄 License
 
-Open `naborly_app.py` in a text editor. Near the top you will find clearly labeled lists/dictionaries:
-
-- `LOCATIONS` — list of locations shown on the map. Each item is a dict with `name`, `type`, `lat`, `lon`.
-- `NEWS` — list of news items, each with `title`, `date`, `content`, `tags`.
-- `DIRECTORY` — list of shops/services/leaders with `name`, `type`, `contact`, `notes`.
-- `INITIAL_MESSAGES` — messages shown in the community feed when the app starts.
-- `UTILITIES` — fake schedules for water, garbage collection.
-- `NOTIFICATIONS` — alerts shown at the top of the app.
-
-Edit or add items to those lists, save, and refresh the Streamlit app page to see changes.
-
-## Notes and next steps
-
-- This is a static prototype for demonstration. To make it real, you would add a backend (database + API), authentication, persistent chat, and real map tiles.
-- Small recommended improvements: add icons on the map (pydeck/folium), search/filtering in the directory, and simple tests to validate data formats.
-
-Enjoy exploring the prototype and customizing the dummy data!
+This project is licensed under the MIT License - see the LICENSE file for details.
