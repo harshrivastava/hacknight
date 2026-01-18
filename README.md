@@ -251,7 +251,7 @@ This project exists thanks to all the people who contribute:
     <td align="center">
       <a href="https://github.com/harshrivastava">
         <img src="https://github.com/harshrivastava.png" width="100px;" alt="Harsh Rivastava"/><br />
-        <sub><code>Harsh Rivastava</code></sub>
+        <sub><code>Harsh Shrivastava</code></sub>
       </a>
     </td>
     <td align="center">
